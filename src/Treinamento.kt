@@ -9,9 +9,11 @@ fun main() {
     mapa.checkMarcadores()
     */
 
-    mapa.checkAndDrawMarcadoresInRange {
-
+    mapa.shouldDrawMarcadoresRange { local, firstValue, secondValue ->
+        local is Marcador && local.latitude in firstValue.toDouble() .. secondValue.toDouble()
     }
+
+    mapa.checkAndDrawMarcadoresInRange(10, 14)
 
 }
 
@@ -72,12 +74,12 @@ class Mapa() {
         false
     }
 
-    fun shouldDrawMarcadores(event: (localizacao: Localizacao) -> Boolean) {
-        drawMarcador = event
+    fun shouldDrawMarcadores(condicao: (localizacao: Localizacao) -> Boolean) {
+        drawMarcador = condicao
     }
 
-    fun shouldDrawMarcadoresRange(event: (local : Localizacao, firstValue : Int, secondValue : Int) -> Boolean) {
-        rangeMarcador = event
+    fun shouldDrawMarcadoresRange(condicao: (local : Localizacao, firstValue : Int, secondValue : Int) -> Boolean) {
+        rangeMarcador = condicao
     }
 
     fun checkMarcadores() {
